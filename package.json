@@ -1,0 +1,11 @@
+{
+  "name": "4.backend",
+  "version": "1.0.0",
+  "description": "this is advance backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "vedant warhekar",
+  "license": "ISC"
+}
