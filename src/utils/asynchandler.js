@@ -4,6 +4,7 @@ const asynchandler = (requesHandler) => {
   };
 };
 export { asynchandler };
+
 /////////////////////////////////////////////////////////////////////
 // const asynhandler = ()=>{}
 // const asynchandler = (fun)=>{
