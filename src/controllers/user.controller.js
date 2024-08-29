@@ -345,6 +345,69 @@ const upadateCoverImage = asynchandler(async (req, res) => {
     .json(new ApiResponse(200, user, "cover Image upadated successfully"));
 });
 
+const getUserChannelProfile = asynchandler(async () => {
+  const { userName } = req.params;
+
+  if (!userName?.trim()) {
+    throw new ApiErrors(400, "user name is missing");
+  }
+
+  const channel = await User.aggregate([
+    {
+      $match: {
+        userName: userName?.toLowerCase(),
+      },
+    },
+    {
+      $lookup: {
+        from: "subscryptions",
+        localField: "_id",
+        foreignField: "channel",
+        as: "subscrybers",
+      },
+    },
+    {
+      $lookup: {
+        from: "subscryptions",
+        localField: "_id",
+        foreignField: "subscryber",
+        as: "subscrybedTo",
+      },
+    },
+    {
+      $addFields: {
+        subscryberCount: {
+          $size: "$subscrybers",
+        },
+        channelsubscryebdToCount: {
+          $size: "$subscrybedTo",
+        },
+        isSubscryed: {
+          $cond: {
+            if: { $in: [req.user?._id, "$subscrybers.subscryber"] },
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        fullName: 1,
+        userName: 1,
+        email: 1,
+        subscryberCount: 1,
+        channelsubscryebdToCount: 1,
+        avatar: 1,
+        coverImage: 1,
+        isSubscryed: 1,
+      },
+    },
+  ]);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, channel[0], "User channel subscryebd"));
+});
+
 export {
   registerUser,
   loginUser,
@@ -355,4 +418,5 @@ export {
   updateAccountDetails,
   updateUserAvatar,
   upadateCoverImage,
+  getUserChannelProfile,
 };
