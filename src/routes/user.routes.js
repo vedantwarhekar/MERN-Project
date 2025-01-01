@@ -14,6 +14,8 @@ import {
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { userValidation } from "../middlewares/incomingDataValidation.js";
+
 const router = Router();
 
 router.route("/register").post(
@@ -21,6 +23,7 @@ router.route("/register").post(
     { name: "avatar", maxCount: 1 },
     { name: "coverImage", maxCount: 1 },
   ]),
+  userValidation,
   registerUser
 );
 
@@ -38,7 +41,7 @@ router.route("/current-user").get(verifyJWT, getCurrentUser);
 router.route("/update-account").patch(verifyJWT, updateAccountDetails);
 
 router
-  .route("/avatar")
+  .route("/change-avatar")
   .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
 
 router
