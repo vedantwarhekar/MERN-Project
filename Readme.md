@@ -1,4 +1,4 @@
-# YouTube Backend Clone
+# 🎥 YouTube Backend Clone
 
 ## 🚀 Overview
 This project is a backend clone of YouTube, designed to replicate core functionalities while introducing social media features. Users can subscribe to channels, create playlists, post tweets, and engage with content by liking comments and tweets. Built with modern backend technologies, this project demonstrates scalable and feature-rich API development.
